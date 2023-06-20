@@ -127,6 +127,7 @@ export interface Meta2dStore {
   fillWorldTextRect?: boolean; // 填充文本区域
 }
 
+// 剪切板
 export interface Meta2dClipboard {
   meta2d?: boolean;
   pens: Pen[];
@@ -138,6 +139,7 @@ export interface Meta2dClipboard {
   pos?: Point;
 }
 
+// 创建Store仓库
 export const createStore = () => {
   return {
     data: {
@@ -158,7 +160,7 @@ export const createStore = () => {
     options: { ...defaultOptions },
     emitter: mitt(),
     bindDatas: {},
-  } as Meta2dStore;
+  } as Meta2dStore; // as 断言
 };
 
 // Return a data store, if not exists will create a store.

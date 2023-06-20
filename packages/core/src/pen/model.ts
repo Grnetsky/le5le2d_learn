@@ -431,7 +431,7 @@ export interface Pen extends Rect {
     activeAnchor?: Point;
     patchFlags?: boolean;
     visible?: boolean; // TODO: visible 是否参与动画呢？
-    // 仅仅内部专用
+    // 仅仅内部专用 是否在视图中
     inView?: boolean;
     // 辅助变量，画线时，动态计算锚点是否时水平方向
     drawlineH?: boolean;

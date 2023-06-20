@@ -40,7 +40,7 @@ export function isAncestor(pen: Pen, ancestor: Pen) {
   }
   let parent = getParent(pen);
   while (parent) {
-    if (parent.id === ancestor.id) {
+    if (parent.id === ancestor.id) { // 根据id来判断
       return true;
     }
     parent = getParent(parent);
@@ -923,7 +923,7 @@ function drawFillText(ctx: CanvasRenderingContext2D, pen: Pen, text: string) {
       t += text;
     }
 
-    const angle = calcRotate(prev, anchor) - 270;
+    const angle = calcRotate(prev, anchor) - 270;  // 计算旋转角度
     ctx.save();
     if (angle % 360 !== 0) {
       const { x, y } = prev;
@@ -2506,6 +2506,7 @@ export function setChildrenActive(pen: Pen, active = true) {
   });
 }
 
+// 给组件设置hover
 export function setHover(pen: Pen, hover = true) {
   if (!pen) {
     return;

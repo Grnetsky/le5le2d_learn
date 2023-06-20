@@ -1,4 +1,4 @@
-import { Meta2d } from '@meta2d/core';
+import { Meta2d } from '@meta2d/core';  
 import { classPens } from '../../class-diagram';
 import { sequencePens, sequencePensbyCtx } from '../../sequence-diagram';
 import { activityDiagram, activityDiagramByCtx } from '../../activity-diagram';
@@ -16,8 +16,8 @@ globalThis.Meta2d = Meta2d;
 globalThis.registerCommonDiagram = function () {
   const meta2d = globalThis.meta2d;
   if (meta2d) {
-    registerEcharts();
-    registerHighcharts();
+    registerEcharts(); // 注册eacharts
+    registerHighcharts(); // 注册highcharts
     registerLightningChart();
     meta2d.register(flowPens());
     meta2d.registerAnchors(flowAnchors());

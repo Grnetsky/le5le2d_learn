@@ -33,8 +33,8 @@ import { Pen } from '@meta2d/core';
 
 export function activityFinal(ctx: CanvasRenderingContext2D, pen: Pen) {
   const { x, y, width, height } = pen.calculative.worldRect;
-  ctx.beginPath();
-  ctx.ellipse(
+  ctx.beginPath(); // 开局
+  ctx.ellipse(  // ellipse
     x + width / 2,
     y + height / 2,
     width / 2,

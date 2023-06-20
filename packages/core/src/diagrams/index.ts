@@ -37,13 +37,13 @@ import { gif } from './gif';
 import { mindNode, mindNodeAnchors } from './mindNode';
 import { mindLine, mindLineAnchors } from './mindLine';
 
-export function commonPens() {
+export function commonPens() {  // 普通笔函数
   return {
-    rectangle,
-    square,
-    circle,
-    svgPath,
-    diamond,
+    rectangle, // 长方形
+    square, //正方形
+    circle, // 圆形
+    svgPath, // svg图像
+    diamond, //
     triangle,
     pentagon,
     pentagram,

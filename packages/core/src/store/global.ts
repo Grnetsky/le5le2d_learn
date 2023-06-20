@@ -1,12 +1,12 @@
 import pkg from '../../package.json';
 import { Pen } from '../pen';
 
-export const globalStore: {
+export const globalStore: {   // 全局状态管理
   version: string;
-  path2dDraws: {
+  path2dDraws: { //TODO 2d画布  作用？
     [key: string]: (pen: Pen, ctx?: CanvasRenderingContext2D) => Path2D;
   };
-  canvasDraws: {
+  canvasDraws: { //TODO canvas画布？ 作用？
     [key: string]: (ctx: CanvasRenderingContext2D, pen: Pen) => void;
   };
   anchors: { [key: string]: (pen: Pen) => void }; // TODO: 存储的是 副作用 函数，函数内修改 anchors
@@ -18,14 +18,14 @@ export const globalStore: {
   anchors: {},
   htmlElements: {},
 };
-
-export function register(path2dFns: {
-  [key: string]: (pen: Pen, ctx?: CanvasRenderingContext2D) => Path2D;
+ 
+export function register(path2dFns: {   // 注册函数 
+  [key: string]: (pen: Pen, ctx?: CanvasRenderingContext2D) => Path2D;  
 }) {
-  Object.assign(globalStore.path2dDraws, path2dFns);
+  Object.assign(globalStore.path2dDraws, path2dFns); // assign方法用来拷贝
 }
 
-export function registerCanvasDraw(drawFns: {
+export function registerCanvasDraw(drawFns: {  //注册画布
   [key: string]: (ctx: CanvasRenderingContext2D, pen: Pen) => void;
 }) {
   Object.assign(globalStore.canvasDraws, drawFns);

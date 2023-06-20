@@ -56,7 +56,7 @@ import {
   Rect,
   rectInRect,
 } from './rect';
-import { deepClone } from './utils/clone';
+import { deepClone } from './utils/clone'; //深拷贝  核心使用递归
 import { Event, EventAction, EventName, TriggerCondition } from './event';
 import { ViewMap } from './map';
 // TODO: 这种引入方式，引入 connect， webpack 5 报错
@@ -67,13 +67,13 @@ import pkg from '../package.json';
 import { lockedError } from './utils/error';
 import { Scroll } from './scroll';
 
-export class Meta2d {
-  store: Meta2dStore;
-  canvas: Canvas;
-  websocket: WebSocket;
-  mqttClient: MqttClient;
-  websockets: WebSocket[];
-  mqttClients: MqttClient[];
+export class Meta2d {   // 2d入口对象
+  store: Meta2dStore; //数据仓库
+  canvas: Canvas;  // 画布
+  websocket: WebSocket;  // websocket协议
+  mqttClient: MqttClient; // mqtt协议
+  websockets: WebSocket[]; //websockets列表 
+  mqttClients: MqttClient[]; // mqtt列表
   socketFn: (
     e: string,
     // topic: string,
@@ -84,28 +84,30 @@ export class Meta2d {
       url?: string;
     }
   ) => boolean;
-  events: Record<number, (pen: Pen, e: Event) => void> = {};
-  map: ViewMap;
+  events: Record<number, (pen: Pen, e: Event) => void> = {}; //事件
+  map: ViewMap; // 映射
   mapTimer: any;
-  constructor(parent: string | HTMLElement, opts: Options = {}) {
-    this.store = useStore(s8());
-    this.setOptions(opts);
-    this.setDatabyOptions(opts);
-    this.init(parent);
-    this.register(commonPens());
-    this.registerCanvasDraw({ cube });
-    this.registerAnchors(commonAnchors());
-    globalThis.meta2d = this;
-    this.initEventFns();
-    this.store.emitter.on('*', this.onEvent);
+  constructor(parent: string | HTMLElement, opts: Options = {}) { // 构造函数 初始化
+    this.store = useStore(s8()); // 初始化仓库
+    this.setOptions(opts); // 初始化设置 
+    this.setDatabyOptions(opts); // 根据设置初始化数据
+    this.init(parent); // 初始化
+    this.register(commonPens()); // 注册Pen 初始化默认Pen 
+    this.registerCanvasDraw({ cube }); // 注册canvas画布
+    this.registerAnchors(commonAnchors()); // 注册Anchors锚点
+    globalThis.meta2d = this; // 将mata2d挂载到全局对象上（window）
+    this.initEventFns();  // 初始化事件函数
+    this.store.emitter.on('*', this.onEvent); // 在store上监听事件
   }
 
-  facePen = facePen;
-  getWords = getWords;
-  calcTextLines = calcTextLines;
+  facePen = facePen;  // ？关于笔
+  getWords = getWords; // 获取单词？ 貌似是笔上的标题
+  calcTextLines = calcTextLines; // 计算Text
   calcTextRect = calcTextRect;
-  calcTextDrawRect = calcTextDrawRect;
+  calcTextDrawRect = calcTextDrawRect;  // 计算text矩形
 
+
+  // 下面都是生命周期？
   /**
    * @deprecated 改用 beforeAddPens
    */
@@ -125,6 +127,8 @@ export class Meta2d {
     this.canvas.beforeAddPens = fn;
   }
   get beforeAddAnchor() {
+    console.log("beforeAddAnchor");
+    
     return this.canvas.beforeAddAnchor;
   }
   set beforeAddAnchor(fn: (pen: Pen, anchor: Point) => Promise<boolean>) {
@@ -192,15 +196,16 @@ export class Meta2d {
   private init(parent: string | HTMLElement) {
     if (typeof parent === 'string') {
       this.canvas = new Canvas(
-        this,
-        document.getElementById(parent),
-        this.store
+        this, // meta2d上下文 
+        document.getElementById(parent), // 根据传入id 找到对应组件
+        this.store  // 初始化仓库
       );
     } else {
       this.canvas = new Canvas(this, parent, this.store);
     }
 
     this.resize();
+    // 监听canvas的各个事件
     this.canvas.listen();
   }
 

@@ -50,7 +50,7 @@ import {
   getGlobalColor,
   clearLifeCycle,
   rotatePen,
-} from '../pen';
+} from '../pen'; // 画笔相关 
 import {
   calcRotate,
   distance,
@@ -62,7 +62,7 @@ import {
   scalePoint,
   translatePoint,
   TwoWay,
-} from '../point';
+} from '../point'; // 
 import {
   calcCenter,
   calcRightBottom,
@@ -102,7 +102,7 @@ import {
   MouseRight,
   rotatedCursors,
 } from '../data';
-import { createOffscreen } from './offscreen';
+import { createOffscreen } from './offscreen'; // 创建离屏canvas 提高渲染性能
 import {
   curve,
   mind,
@@ -114,7 +114,7 @@ import {
   lineSegment,
   getLineR,
   lineInRect,
-} from '../diagrams';
+} from '../diagrams';  
 import { polyline, translatePolylineAnchor } from '../diagrams/line/polyline';
 import { Tooltip } from '../tooltip';
 import { Scroll } from '../scroll';
@@ -126,7 +126,7 @@ import { Dialog } from '../dialog';
 import { setter } from '../utils/object';
 
 export const movingSuffix = '-moving' as const;
-export class Canvas {
+export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
   canvas = document.createElement('canvas');
   offscreen = createOffscreen() as HTMLCanvasElement;
 
@@ -252,7 +252,7 @@ export class Canvas {
     this.canvas.style.backgroundSize = '100% 100%';
     this.canvas.style.zIndex = '2';
 
-    this.canvasImage = new CanvasImage(parentElement, store);
+    this.canvasImage = new CanvasImage(parentElement, store);  
     this.canvasImage.canvas.style.zIndex = '3';
 
     this.magnifierCanvas = new MagnifierCanvas(this, parentElement, store);
@@ -269,7 +269,8 @@ export class Canvas {
     this.createInput();
 
     this.tooltip = new Tooltip(parentElement, store);
-    this.tooltip.box.onmouseleave = (e) => {
+    this.tooltip.box.onmouseleave = (e) => { //  工具箱 鼠标移动处理函数
+      console.log("tooltip 鼠标移动事件");
       this.patchFlags = true;
       this.store.lastHover && (this.store.lastHover.calculative.hover = false);
       let hover = this.store.data.pens.find(
@@ -949,7 +950,8 @@ export class Canvas {
     });
   }
 
-  ondrop = async (event: DragEvent) => {
+  ondrop = async (event: DragEvent) => { // 监听拖拽事件
+    console.log(event)
     if (this.store.data.locked) {
       console.warn('canvas is locked, can not drop');
       return;
@@ -962,6 +964,8 @@ export class Canvas {
         event.dataTransfer.getData('Meta2d') ||
         event.dataTransfer.getData('Text');
       let obj = null;
+      console.log(json);
+      
       if (!json) {
         const { files } = event.dataTransfer;
         if (files.length && files[0].type.match('image.*')) {
@@ -978,7 +982,10 @@ export class Canvas {
     } catch (e) {}
   };
 
+
+  // 放置元素 核心代码
   async dropPens(pens: Pen[], e: Point) {
+    
     for (const pen of pens) {
       // 只修改 树根处的 祖先节点, randomCombineId 会递归更改子节点
       !pen.parentId && this.randomCombineId(pen, pens);
@@ -1058,6 +1065,8 @@ export class Canvas {
   }
 
   async addPens(pens: Pen[], history?: boolean): Promise<Pen[]> {
+    console.log("增加元素");
+    
     if (this.beforeAddPens && (await this.beforeAddPens(pens)) != true) {
       return [];
     }
@@ -1327,6 +1336,7 @@ export class Canvas {
     shiftKey?: boolean;
     altKey?: boolean;
   }) => {
+    
     if (e.buttons === 2 && !this.drawingLine) {
       this.mouseRight = MouseRight.Down;
     }
@@ -1591,6 +1601,7 @@ export class Canvas {
     this.render();
   };
 
+  // 拖动元素移动函数
   onMouseMove = (e: {
     x: number;
     y: number;
@@ -1602,7 +1613,7 @@ export class Canvas {
     ctrlKey?: boolean;
     shiftKey?: boolean;
     altKey?: boolean;
-  }) => {
+  }) => {    
     if (this.store.data.locked === LockState.Disable) {
       this.hoverType = HoverType.None;
       return;

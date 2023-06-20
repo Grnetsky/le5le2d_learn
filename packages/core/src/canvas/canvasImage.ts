@@ -10,7 +10,7 @@ import { Meta2dStore } from '../store';
 import { rgba } from '../utils';
 import { createOffscreen } from './offscreen';
 
-export class CanvasImage {
+export class CanvasImage {  // 图片canvas类
   canvas = document.createElement('canvas');
   /**
    * 非图片的绘制
@@ -26,6 +26,7 @@ export class CanvasImage {
     public store: Meta2dStore,
     private isBottom?: boolean
   ) {
+    // 初始化画布
     parentElement.appendChild(this.canvas);
     this.canvas.style.backgroundRepeat = 'no-repeat';
     this.canvas.style.backgroundSize = '100% 100%';
@@ -33,7 +34,7 @@ export class CanvasImage {
     this.canvas.style.top = '0';
     this.canvas.style.left = '0';
   }
-
+  // 重置画布
   resize(w?: number, h?: number) {
     this.canvas.style.width = w + 'px';
     this.canvas.style.height = h + 'px';

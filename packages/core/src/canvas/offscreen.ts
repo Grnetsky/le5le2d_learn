@@ -1,9 +1,9 @@
 export function createOffscreen() {
   try {
-    const offscreen = new OffscreenCanvas(0, 0);
-    const context = offscreen.getContext('2d');
+    const offscreen = new OffscreenCanvas(0, 0);  // 离屏canvans 实验中的新特性 用于提高canvas渲染效率
+    const context = offscreen.getContext('2d'); // 2d渲染
 
-    if (context && context.arc) {
+    if (context && context.arc) {  
       return offscreen;
     }
 

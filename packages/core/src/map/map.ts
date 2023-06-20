@@ -19,7 +19,7 @@ export class ViewMap {
     this.box.appendChild(this.img);
     this.box.appendChild(this.view);
     this.parent.externalElements.appendChild(this.box);
-
+    
     this.box.className = 'meta2d-map';
     this.box.onmousedown = this.onMouseDown;
     this.box.onmousemove = this.onMouseMove;

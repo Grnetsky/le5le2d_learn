@@ -8,6 +8,7 @@ export enum PenType {
   Line,
 }
 
+// 锁定状态
 export enum LockState {
   None,
   DisableEdit,
@@ -100,6 +101,7 @@ export interface ColorStop {
   color: string;
 }
 
+// pen基类 用于定义标准属性
 export interface Pen extends Rect {
   id?: string;
   tags?: string[];
@@ -318,7 +320,8 @@ export interface Pen extends Rect {
   currentAnimation?: number; //当前动画索引
   realTimes?: RealTime[];
   crossOrigin?: string;
-  // calculative 对象中的值是为了动画存在，表明了渐变过程中，画布上绘制的当前值
+
+  // calculative 对象中的值是为了动画存在，表明了渐变过程中，画布上绘制的当前值 该项目动画采用requestAnimationFrame进行帧更新
   calculative?: {
     x?: number;
     y?: number;

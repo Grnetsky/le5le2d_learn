@@ -72,7 +72,7 @@ export class Meta2d {   // 2d入口对象
   canvas: Canvas;  // 画布
   websocket: WebSocket;  // websocket协议
   mqttClient: MqttClient; // mqtt协议
-  websockets: WebSocket[]; //websockets列表 
+  websockets: WebSocket[]; //websockets列表
   mqttClients: MqttClient[]; // mqtt列表
   socketFn: (
     e: string,
@@ -89,15 +89,15 @@ export class Meta2d {   // 2d入口对象
   mapTimer: any;
   constructor(parent: string | HTMLElement, opts: Options = {}) { // 构造函数 初始化
     this.store = useStore(s8()); // 初始化仓库
-    this.setOptions(opts); // 初始化设置 
+    this.setOptions(opts); // 初始化设置
     this.setDatabyOptions(opts); // 根据设置初始化数据
     this.init(parent); // 初始化
-    this.register(commonPens()); // 注册Pen 初始化默认Pen 
+    this.register(commonPens()); // 注册Pen 初始化默认Pen
     this.registerCanvasDraw({ cube }); // 注册canvas画布
     this.registerAnchors(commonAnchors()); // 注册Anchors锚点
     globalThis.meta2d = this; // 将mata2d挂载到全局对象上（window）
     this.initEventFns();  // 初始化事件函数
-    this.store.emitter.on('*', this.onEvent); // 在store上监听事件
+    this.store.emitter.on('*', this.onEvent); // 在store中监听事件
   }
 
   facePen = facePen;  // ？关于笔
@@ -128,7 +128,7 @@ export class Meta2d {   // 2d入口对象
   }
   get beforeAddAnchor() {
     console.log("beforeAddAnchor");
-    
+
     return this.canvas.beforeAddAnchor;
   }
   set beforeAddAnchor(fn: (pen: Pen, anchor: Point) => Promise<boolean>) {
@@ -146,23 +146,22 @@ export class Meta2d {   // 2d入口对象
   set beforeRemoveAnchor(fn: (pen: Pen, anchor: Point) => Promise<boolean>) {
     this.canvas.beforeRemoveAnchor = fn;
   }
-
+  // 设置配置项
   setOptions(opts: Options = {}) {
     this.store.options = Object.assign(this.store.options, opts);
     if (this.canvas && opts.scroll !== undefined) {
       if (opts.scroll) {
         !this.canvas.scroll && (this.canvas.scroll = new Scroll(this.canvas));
-        this.canvas.scroll.show();
+        this.canvas.scroll.show(); // TODO scroll类作用？
       } else {
         this.canvas.scroll.hide();
       }
     }
   }
-
   getOptions() {
     return this.store.options;
   }
-
+  // 设置基础数据
   setDatabyOptions(options: Options = {}) {
     const {
       color,
@@ -196,7 +195,7 @@ export class Meta2d {   // 2d入口对象
   private init(parent: string | HTMLElement) {
     if (typeof parent === 'string') {
       this.canvas = new Canvas(
-        this, // meta2d上下文 
+        this, // meta2d上下文
         document.getElementById(parent), // 根据传入id 找到对应组件
         this.store  // 初始化仓库
       );
@@ -209,6 +208,7 @@ export class Meta2d {   // 2d入口对象
     this.canvas.listen();
   }
 
+  // 初始化各个事件 并缓存到events列表中
   initEventFns() {
     this.events[EventAction.Link] = (pen: Pen, e: Event) => {
       if (window && e.value && typeof e.value === 'string') {
@@ -394,7 +394,6 @@ export class Meta2d {   // 2d入口对象
       }
     };
   }
-
   navigatorTo(id: string) {
     if (!id) {
       return;
@@ -410,7 +409,7 @@ export class Meta2d {   // 2d入口对象
       }
     }
   }
-
+  // 通讯相关 用于数据传输及其响应
   doSendDataEvent(value: any, topics?: string) {
     let data = JSON.stringify(value);
     if (this.mqttClient && this.mqttClient.connected) {
@@ -426,10 +425,10 @@ export class Meta2d {   // 2d入口对象
       }
     }
     if (this.websocket && this.websocket.readyState === 1) {
-      this.websocket.send(data);
+      this.websocket.send(data);  // websocket发送数据
     }
     if (this.store.data.https || this.store.data.http) {
-      this.sendDatabyHttp(data);
+      this.sendDatabyHttp(data); // http长轮询
     }
     this.store.emitter.emit('sendData', data);
   }
@@ -1441,7 +1440,7 @@ export class Meta2d {   // 2d入口对象
       }
     }
   }
-
+  // http发出数据
   async sendDatabyHttp(data: string) {
     const { https } = this.store.data;
     if (https) {

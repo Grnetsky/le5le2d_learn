@@ -1,4 +1,4 @@
-import { KeydownType } from '../options';
+import { KeydownType } from '../options';  // 引入按键类型
 import {
   addLineAnchor,
   calcIconRect,
@@ -50,7 +50,7 @@ import {
   getGlobalColor,
   clearLifeCycle,
   rotatePen,
-} from '../pen'; // 画笔相关 
+} from '../pen'; // 画笔相关
 import {
   calcRotate,
   distance,
@@ -62,7 +62,7 @@ import {
   scalePoint,
   translatePoint,
   TwoWay,
-} from '../point'; // 
+} from '../point'; //TODO 点？作用？
 import {
   calcCenter,
   calcRightBottom,
@@ -76,14 +76,14 @@ import {
   rectToPoints,
   resizeRect,
   translateRect,
-} from '../rect';
+} from '../rect'; //
 import {
   EditAction,
   EditType,
   globalStore,
   Meta2dClipboard,
   Meta2dStore,
-} from '../store';
+} from '../store'; // 引入全局仓库
 import {
   deepClone,
   fileToBase64,
@@ -91,13 +91,13 @@ import {
   formatPadding,
   Padding,
   rgba,
-  s8,
-} from '../utils';
+  s8, // uuid
+} from '../utils'; // 导入工具包
 import {
   inheritanceProps,
   defaultCursors,
   defaultDrawLineFns,
-  HotkeyType,
+  HotkeyType, // 热键
   HoverType,
   MouseRight,
   rotatedCursors,
@@ -114,7 +114,7 @@ import {
   lineSegment,
   getLineR,
   lineInRect,
-} from '../diagrams';  
+} from '../diagrams'; // 图
 import { polyline, translatePolylineAnchor } from '../diagrams/line/polyline';
 import { Tooltip } from '../tooltip';
 import { Scroll } from '../scroll';
@@ -223,7 +223,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
   inputRight = document.createElement('div');
   dropdown = document.createElement('ul');
 
-  tooltip: Tooltip;
+  tooltip: Tooltip; // 创建tooltip对象
   mousePos: Point = { x: 0, y: 0 };
 
   scroll: Scroll;
@@ -252,7 +252,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     this.canvas.style.backgroundSize = '100% 100%';
     this.canvas.style.zIndex = '2';
 
-    this.canvasImage = new CanvasImage(parentElement, store);  
+    this.canvasImage = new CanvasImage(parentElement, store);
     this.canvasImage.canvas.style.zIndex = '3';
 
     this.magnifierCanvas = new MagnifierCanvas(this, parentElement, store);
@@ -268,7 +268,9 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     parentElement.appendChild(this.externalElements);
     this.createInput();
 
-    this.tooltip = new Tooltip(parentElement, store);
+    // 创建tooltip对象
+    this.tooltip = new Tooltip(parentElement, store);  // TODO tooltip位置如何得到？如何计算？
+    // 重写tooltip的onmouseleave方法
     this.tooltip.box.onmouseleave = (e) => { //  工具箱 鼠标移动处理函数
       console.log("tooltip 鼠标移动事件");
       this.patchFlags = true;
@@ -965,7 +967,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
         event.dataTransfer.getData('Text');
       let obj = null;
       console.log(json);
-      
+
       if (!json) {
         const { files } = event.dataTransfer;
         if (files.length && files[0].type.match('image.*')) {
@@ -985,7 +987,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
 
   // 放置元素 核心代码
   async dropPens(pens: Pen[], e: Point) {
-    
+
     for (const pen of pens) {
       // 只修改 树根处的 祖先节点, randomCombineId 会递归更改子节点
       !pen.parentId && this.randomCombineId(pen, pens);
@@ -1066,7 +1068,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
 
   async addPens(pens: Pen[], history?: boolean): Promise<Pen[]> {
     console.log("增加元素");
-    
+
     if (this.beforeAddPens && (await this.beforeAddPens(pens)) != true) {
       return [];
     }
@@ -1336,7 +1338,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     shiftKey?: boolean;
     altKey?: boolean;
   }) => {
-    
+
     if (e.buttons === 2 && !this.drawingLine) {
       this.mouseRight = MouseRight.Down;
     }
@@ -1613,7 +1615,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     ctrlKey?: boolean;
     shiftKey?: boolean;
     altKey?: boolean;
-  }) => {    
+  }) => {
     if (this.store.data.locked === LockState.Disable) {
       this.hoverType = HoverType.None;
       return;

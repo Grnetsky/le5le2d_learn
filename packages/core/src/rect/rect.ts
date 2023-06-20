@@ -2,17 +2,23 @@ import { isEqual, Pen } from '../pen';
 import { Point, rotatePoint, scalePoint } from '../point';
 import { formatPadding, Padding } from '../utils';
 
-export interface Rect {
-  x?: number;
-  y?: number;
-  ex?: number;
+export interface Rect { // 定义矩形
+  x?: number; // 横坐标
+  y?: number; // 纵坐标
+  ex?: number; //TODO 这是什么？？
   ey?: number;
-  width?: number;
-  height?: number;
-  rotate?: number;
-  center?: Point;
+  width?: number; // 宽度
+  height?: number; // 高度
+  rotate?: number; // 旋转角度
+  center?: Point; // 中间点
 }
 
+/**
+ * @description 矩形上的点
+ * @param pt 点的事件
+ * @param rect 目标矩形
+ * @return boolean 点是否位于矩形
+ * */
 export function pointInRect(pt: Point, rect: Rect) {
   if (!rect) {
     return;

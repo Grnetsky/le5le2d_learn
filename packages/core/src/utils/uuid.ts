@@ -1,3 +1,6 @@
+/**
+ * @description 该文件为随机数生成函数文件 sn为生成n位随机数  有一定几率生成小于n的位数
+ * */
 export function s4() {
   return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
 }

@@ -1,7 +1,7 @@
 import pkg from '../../package.json';
 import { Pen } from '../pen';
 
-export const globalStore: {   // 全局状态管理
+export const globalStore: {   // 全局仓库管理
   version: string;
   path2dDraws: { //TODO 2d画布  作用？
     [key: string]: (pen: Pen, ctx?: CanvasRenderingContext2D) => Path2D;
@@ -18,9 +18,9 @@ export const globalStore: {   // 全局状态管理
   anchors: {},
   htmlElements: {},
 };
- 
-export function register(path2dFns: {   // 注册函数 
-  [key: string]: (pen: Pen, ctx?: CanvasRenderingContext2D) => Path2D;  
+
+export function register(path2dFns: {   // 注册函数
+  [key: string]: (pen: Pen, ctx?: CanvasRenderingContext2D) => Path2D;
 }) {
   Object.assign(globalStore.path2dDraws, path2dFns); // assign方法用来拷贝
 }

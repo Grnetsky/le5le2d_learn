@@ -98,6 +98,7 @@ export interface EditAction {
   scale?: number;
 }
 
+// Meta2d 网格仓库
 export interface Meta2dStore {
   id: string;
   data: Meta2dData;

@@ -1,6 +1,10 @@
+/**
+ * @description 该文件为项目全局配置文件 默认配置如下
+ * */
 import { TextAlign, TextBaseline, Pen } from './pen';
 import { Point } from './point';
 
+// TODO 此枚举作用？
 export enum KeydownType {
   None = -1,
   Document,
@@ -9,7 +13,7 @@ export enum KeydownType {
 
 export interface Options {
   color?: string;
-  activeColor?: string;
+  activeColor?: string; // 激活
   activeBackground?: string;
   hoverColor?: string;
   hoverBackground?: string;
@@ -80,6 +84,7 @@ export interface Options {
   domShapes?: string[]; //扩展的dom节点
 }
 
+// 基本设置 用于全局配置
 export const defaultOptions: Options = {
   fontFamily:
     '"Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial',
@@ -88,7 +93,7 @@ export const defaultOptions: Options = {
   textAlign: 'center',
   textBaseline: 'middle',
   color: '#222222',
-  activeColor: '#278df8',
+  activeColor: '#f8f527',
   hoverColor: 'rgba(39,141,248,0.50)',
   anchorColor: '#278DF8',
   hoverAnchorColor: '#FF4101',

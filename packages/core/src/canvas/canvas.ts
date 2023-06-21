@@ -50,7 +50,7 @@ import {
   getGlobalColor,
   clearLifeCycle,
   rotatePen,
-} from '../pen'; // 画笔相关
+} from '../pen'; // 图元相关
 import {
   calcRotate,
   distance,
@@ -62,7 +62,7 @@ import {
   scalePoint,
   translatePoint,
   TwoWay,
-} from '../point'; //TODO 点？作用？
+} from '../point'; // TODO 点？作用？
 import {
   calcCenter,
   calcRightBottom,
@@ -76,7 +76,7 @@ import {
   rectToPoints,
   resizeRect,
   translateRect,
-} from '../rect'; //
+} from '../rect';
 import {
   EditAction,
   EditType,
@@ -102,7 +102,7 @@ import {
   MouseRight,
   rotatedCursors,
 } from '../data';
-import { createOffscreen } from './offscreen'; // 创建离屏canvas 提高渲染性能
+import { createOffscreen } from './offscreen'; // 创建离屏canvas 提高渲染性能 双缓冲
 import {
   curve,
   mind,
@@ -126,15 +126,15 @@ import { Dialog } from '../dialog';
 import { setter } from '../utils/object';
 
 export const movingSuffix = '-moving' as const;
-export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
+export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓冲提高性能  放第三方组件
   canvas = document.createElement('canvas');
-  offscreen = createOffscreen() as HTMLCanvasElement;
+  offscreen = createOffscreen() as HTMLCanvasElement; // 创建隔离层 双缓冲
 
-  width: number;
-  height: number;
+  width: number; // 宽度
+  height: number; // 高度
 
-  externalElements = document.createElement('div');
-  clientRect?: DOMRect;
+  externalElements = document.createElement('div');  // 这个为外部聚焦框 可能不止一个子元素？ external：外部的
+  clientRect?: DOMRect; // TODO 作用？
   canvasRect: Rect;
 
   activeRect: Rect;
@@ -255,7 +255,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     this.canvasImage = new CanvasImage(parentElement, store);
     this.canvasImage.canvas.style.zIndex = '3';
 
-    this.magnifierCanvas = new MagnifierCanvas(this, parentElement, store);
+    this.magnifierCanvas = new MagnifierCanvas(this, parentElement, store); // 放大镜
     this.magnifierCanvas.canvas.style.zIndex = '4';
 
     this.externalElements.style.position = 'absolute';
@@ -295,14 +295,14 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
       this.store.dpiRatio = 1.5;
     }
 
-    this.clientRect = this.externalElements.getBoundingClientRect();
+    this.clientRect = this.externalElements.getBoundingClientRect(); // getBoundingClientRect 方法用于返回元素的大小及其相对于视口的位置
     this.listen();
 
     window?.addEventListener('resize', this.onResize);
     window?.addEventListener('scroll', this.onScroll);
   }
 
-  curve = curve;
+  curve = curve; // 曲线
   polyline = polyline;
   mind = mind;
   line = lineSegment;
@@ -953,7 +953,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
   }
 
   ondrop = async (event: DragEvent) => { // 监听拖拽事件
-    console.log(event)
+    console.log(event,66666)
     if (this.store.data.locked) {
       console.warn('canvas is locked, can not drop');
       return;
@@ -985,7 +985,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
   };
 
 
-  // 放置元素 核心代码
+  //TODO 放置元素 核心代码 核心代码
   async dropPens(pens: Pen[], e: Point) {
 
     for (const pen of pens) {
@@ -995,7 +995,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     for (const pen of pens) {
       // TODO: randomCombineId 会更改 id， 此处应该不存在空 id
       if (!pen.id) {
-        pen.id = s8();
+        pen.id = s8(); // 随机id
       }
       !pen.calculative && (pen.calculative = { canvas: this });
       this.store.pens[pen.id] = pen;
@@ -1067,8 +1067,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
   }
 
   async addPens(pens: Pen[], history?: boolean): Promise<Pen[]> {
-    console.log("增加元素");
-
+    console.log("增加元素",pens);
     if (this.beforeAddPens && (await this.beforeAddPens(pens)) != true) {
       return [];
     }
@@ -1603,7 +1602,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     this.render();
   };
 
-  // 拖动元素移动函数
+  // 监听鼠标在canvas中移动事件
   onMouseMove = (e: {
     x: number;
     y: number;
@@ -2495,6 +2494,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     }, 100);
   };
 
+  // 校准鼠标
   calibrateMouse = (pt: Point) => {
     pt.x -= this.store.data.x;
     pt.y -= this.store.data.y;
@@ -2975,10 +2975,10 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     this.sizeCPs = undefined;
     this.canvas
       .getContext('2d')
-      .clearRect(0, 0, this.canvas.width, this.canvas.height);
+      .clearRect(0, 0, this.canvas.width, this.canvas.height); // 清除画布
     this.offscreen
       .getContext('2d')
-      .clearRect(0, 0, this.offscreen.width, this.offscreen.height);
+      .clearRect(0, 0, this.offscreen.width, this.offscreen.height); // 清除隔离层画布
     this.canvasImage.clear();
     this.canvasImageBottom.clear();
   }
@@ -3314,6 +3314,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
 
   drawingPencil() {
     lockedError(this.store);
+    console.log("执行drwaPencil");
     this.pencil = true;
     this.externalElements.style.cursor = 'crosshair';
   }
@@ -3399,6 +3400,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     this.render();
   }
 
+  //TODO 钢笔铅笔绘图核心代码
   async finishPencil() {
     if (this.pencilLine) {
       const anchors: Point[] = simplify(
@@ -3408,7 +3410,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
         this.pencilLine.calculative.worldAnchors.length - 1
       );
       let p = getFromAnchor(this.pencilLine);
-      anchors.unshift({ id: p.id, penId: p.penId, x: p.x, y: p.y });
+      anchors.unshift({ id: p.id, penId: p.penId, x: p.x, y: p.y }); // 锚点前追加
       p = getToAnchor(this.pencilLine);
       anchors.push({ id: p.id, penId: p.penId, x: p.x, y: p.y });
       this.pencilLine.calculative.worldAnchors = smoothLine(anchors);
@@ -3699,6 +3701,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     }, 50);
   }
 
+  // TODO canvas渲染函数 核心部分
   render = (patchFlags?: number | boolean) => {
     if (patchFlags) {
       this.opening = false;
@@ -6572,6 +6575,7 @@ export class Canvas {  // 画布类 TODO: 为什么主界面是四个canvas
     this.render();
   }
 
+  // 显示放大镜核心部分
   showMagnifier() {
     this.magnifierCanvas.magnifier = true;
     this.externalElements.style.cursor = 'default';

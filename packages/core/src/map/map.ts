@@ -1,37 +1,43 @@
+/**
+ * @description 缩略图实现
+ * */
+
+
 import { Canvas } from '../canvas';
 import { calcRightBottom, getRect, translateRect } from '../rect';
 
 export class ViewMap {
   box: HTMLElement;
-  readonly boxWidth = 320;
-  readonly boxHeight = 180;
-  readonly ratio = this.boxWidth / this.boxHeight;
-  readonly padding = 5;
+  readonly boxWidth = 320;  // 定宽
+  readonly boxHeight = 180; // 定高
+  readonly ratio = this.boxWidth / this.boxHeight; // 定宽高比
+  readonly padding = 5; // 内边距
   img: HTMLImageElement;
-  isShow: boolean;
-  isDown: boolean;
+  isShow: boolean;  // 展示
+  isDown: boolean;  //
   view: HTMLElement; // 可视区域外框
-  constructor(public parent: Canvas) {
-    this.box = document.createElement('div');
+  constructor(public parent: Canvas) { // 父canvas图元
+    this.box = document.createElement('div'); // 创建缩略图区域
     this.img = new Image();
-    this.view = document.createElement('div');
+    this.view = document.createElement('div'); // 创建可视区域
 
     this.box.appendChild(this.img);
     this.box.appendChild(this.view);
     this.parent.externalElements.appendChild(this.box);
-    
+
     this.box.className = 'meta2d-map';
+    // 绑定事件
     this.box.onmousedown = this.onMouseDown;
     this.box.onmousemove = this.onMouseMove;
     this.box.onmouseup = this.onMouseUp;
-
+    // 绑定样式 在线
     let sheet: any;
     for (let i = 0; i < document.styleSheets.length; i++) {
       if (document.styleSheets[i].title === 'le5le/map') {
         sheet = document.styleSheets[i];
       }
     }
-
+    // 绑定样式 离线
     if (!sheet) {
       let style = document.createElement('style');
       style.type = 'text/css';
@@ -60,7 +66,7 @@ export class ViewMap {
 
   show() {
     this.box.style.display = 'flex';
-
+    // 数据来源
     const data = this.parent.store.data;
     if (data.pens.length) {
       this.img.style.display = 'block';

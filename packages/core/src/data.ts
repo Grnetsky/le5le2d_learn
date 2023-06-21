@@ -45,6 +45,7 @@ export const rotatedCursors = [
   'w-resize',
 ] as const;
 
+// 默认绘画 curve曲线 polyline多段线 line直线
 export const defaultDrawLineFns = ['curve', 'polyline', 'line'];
 
 export const inheritanceProps = [

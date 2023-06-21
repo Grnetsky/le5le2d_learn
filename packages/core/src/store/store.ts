@@ -174,6 +174,7 @@ export const useStore = (id = 'default'): Meta2dStore => {
   return globalStore[id];
 };
 
+// 清除数据仓库 -》手动赋值清除
 export const clearStore = (store: Meta2dStore) => {
   store.data = {
     x: 0,

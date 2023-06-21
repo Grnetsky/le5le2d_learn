@@ -1,5 +1,6 @@
 import { Point, PrevNextType } from '../../point';
 
+// 简化函数
 export function simplify(points: Point[], length: number, start: number, end: number) {
   const newPoints: Point[] = [];
   let maxDist, index, xx, yy, dx, dy, ddx, ddy, p1, p2, p, t, dist, dist1;
@@ -55,6 +56,7 @@ export function simplify(points: Point[], length: number, start: number, end: nu
   return newPoints;
 }
 
+// 光滑函数
 export function smoothLine(points: Point[], cornerThres = 0.8, match = false) {
   if (points.length < 3) {
     return points;

@@ -85,7 +85,7 @@ export class Meta2d {   // 2d入口对象
     }
   ) => boolean;
   events: Record<number, (pen: Pen, e: Event) => void> = {}; //事件
-  map: ViewMap; // 映射
+  map: ViewMap; // 缩略图
   mapTimer: any;
   constructor(parent: string | HTMLElement, opts: Options = {}) { // 构造函数 初始化
     this.store = useStore(s8()); // 初始化仓库
@@ -670,6 +670,7 @@ export class Meta2d {   // 2d入口对象
   }
 
   drawLine(lineName?: string) {
+    console.log("绘图");
     lineName && lockedError(this.store);
     this.canvas.drawingLineName = lineName;
   }
@@ -1255,9 +1256,9 @@ export class Meta2d {   // 2d入口对象
   }
 
   data(): Meta2dData {
-    const data: Meta2dData = deepClone(this.store.data);
+    const data: Meta2dData = deepClone(this.store.data); // 深拷贝 数据仓库中的数据
     const { pens, paths } = this.store.data;
-    data.version = pkg.version;
+    data.version = pkg.version; // 获取版本信息
     // TODO: 未在 delete 时清除，避免撤销等操作。
     // 清除一些未使用到的 paths
     data.paths = {};

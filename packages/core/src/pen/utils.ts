@@ -6,7 +6,7 @@ export function randomId(pen: Pen) {
   if (Array.isArray(pen.anchors)) {
     for (const pt of pen.anchors) {
       pen.type && (pt.id = s8());
-      pt.penId = pen.id;
+      pt.penId = pen.id; // 锚点id指向画笔id
       if (pt.prev) {
         pen.type && (pt.prev.id = s8());
         pt.prev.penId = pen.id;

@@ -1,20 +1,25 @@
+/**
+ * @description canvas放大镜
+ * */
+
 import { Meta2dStore } from '../store';
 import { Canvas } from './canvas';
 import { createOffscreen } from './offscreen';
 
+// 放大镜类
 export class MagnifierCanvas {
-  canvas = document.createElement('canvas');
-  magnifierScreen = createOffscreen();
-  offscreen = createOffscreen();
-  private magnifierSize: number = 300;
-  magnifier: boolean;
+  canvas = document.createElement('canvas'); // 创建canvas放大镜
+  magnifierScreen = createOffscreen(); // 创建放大镜
+  offscreen = createOffscreen(); //创建放大镜缓冲区
+  private magnifierSize: number = 300; // 放大镜尺寸
+  magnifier: boolean; // 放大镜是否开启
 
   constructor(
-    public parentCanvas: Canvas,
-    public parentElement: HTMLElement,
+    public parentCanvas: Canvas, // 父canvas
+    public parentElement: HTMLElement, // 父ele
     public store: Meta2dStore
   ) {
-    parentElement.appendChild(this.canvas);
+    parentElement.appendChild(this.canvas); // 添加到父元素中
     this.canvas.style.backgroundRepeat = 'no-repeat';
     this.canvas.style.backgroundSize = '100% 100%';
     this.canvas.style.position = 'absolute';
@@ -71,7 +76,7 @@ export class MagnifierCanvas {
       this.store.data.background || this.store.options.background || '#f4f4f4';
     ctx.fillRect(0, 0, size, size);
     ctx.translate(-r, -r);
-    ctx.scale(2, 2);
+    ctx.scale(2, 2); // 放大效果实现
     const pt = {
       x:
         (this.parentCanvas.mousePos.x + this.store.data.x) *
@@ -87,6 +92,7 @@ export class MagnifierCanvas {
       this.parentCanvas.canvasImage.offscreen,
       this.parentCanvas.canvasImage.animateOffsScreen,
     ];
+    // 跟随鼠标绘制  双缓冲
     drawOffscreens.forEach((offscreen) => {
       ctx.drawImage(
         offscreen,

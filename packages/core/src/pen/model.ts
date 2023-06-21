@@ -72,6 +72,7 @@ export const needPatchFlagsPenRectProps = [
 
 export const needCalcIconRectProps = ['iconLeft', 'iconTop', 'iconRotate'];
 
+// 连接线
 export interface ConnectLine {
   lineId: string;
   lineAnchor: string;

@@ -14,7 +14,7 @@ const onOpen = (e) => {
     return;
   }
   const reader = new FileReader();
-  reader.onload = (event) => {
+  reader.onload = (event) => { // 监听读取成功事件
     try {
       const json = JSON.parse(event.target.result);
       window.meta2d.open(json);
@@ -22,20 +22,21 @@ const onOpen = (e) => {
       console.log("读取文件失败，请检查数据格式");
     }
   };
-  reader.readAsText(file);
+  reader.readAsText(file); // 执行读取方法
 };
 const onSave = () => {
   const filename = "测试数据.json";
   const data = window.meta2d.data();
   const json = JSON.stringify(data, undefined, 4);
   const blob = new Blob([json], { type: "text/json" });
-  const a = document.createElement("a");
+  const a = document.createElement("a"); // 通过a链接的dowmload下载
   a.download = filename;
   a.href = window.URL.createObjectURL(blob);
-  a.dataset.downloadurl = ["text/json", a.download, a.href].join(":");
-  a.click();
+  a.dataset.downloadurl = ["text/json", a.download, a.href].join(":"); // TODO 作用？
+  a.click(); // 点击下载
 };
 const onTogglePen = () => {
+  // TODO 存在bug
   isPencilActive.value = false;
   window.meta2d.finishPencil();
   isPenActive.value = true;

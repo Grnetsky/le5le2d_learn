@@ -11,6 +11,7 @@ import axios from "axios";
 import { parseSvg } from "@meta2d/svg";
 import Meta2dTwoVue from "./Meta2dTwo.vue";
 
+// 拖拽开始事件
 const onDragStart = (e: any, data) => {
   e.dataTransfer.setData("Meta2d", JSON.stringify(data));
 };
@@ -56,7 +57,7 @@ axios.get("/T型开关A -C.svg").then((res) => {
     <div class="link">
       <a href="http://2ds.le5le.com/">去官网</a>
     </div>
-    <Meta2dTwoVue /> 
+    <Meta2dTwoVue />
   </div>
 </template>
 

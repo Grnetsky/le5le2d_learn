@@ -104,8 +104,8 @@ export interface Meta2dStore {
   data: Meta2dData;
   pens: { [key: string]: Pen };
 
-  histories?: EditAction[];
-  historyIndex?: number;
+  histories?: EditAction[]; // 步骤记录
+  historyIndex?: number; // 历史索引
   path2dMap: WeakMap<Pen, Path2D>;
   animateMap: WeakMap<Pen, Pen>;
   bindDatas: { [key: string]: { id: string; formItem: FormItem }[] };
@@ -120,7 +120,7 @@ export interface Meta2dStore {
   options: Options;
   emitter: Emitter;
   dpiRatio?: number;
-  clipboard?: Meta2dClipboard;
+  clipboard?: Meta2dClipboard; // 剪切板
   patchFlagsBackground?: boolean; // 是否需要重绘背景，包含网格
   patchFlagsTop?: boolean; // 是否需要重绘标尺
   bkImg: HTMLImageElement;

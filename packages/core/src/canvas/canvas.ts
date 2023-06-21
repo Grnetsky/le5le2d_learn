@@ -3611,7 +3611,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
   }
 
   setCalculativeByScale(pen: Pen) {
-    const scale = this.store.data.scale;
+    const scale = this.store.daGITta.scale;
     pen.calculative.lineWidth = pen.lineWidth * scale;
     pen.calculative.fontSize = pen.fontSize * scale;
     if (pen.fontSize < 1) {

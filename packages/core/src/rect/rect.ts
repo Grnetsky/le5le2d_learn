@@ -102,7 +102,7 @@ export function getRect(pens: Pen[]): Rect {
     if (pen.isRuleLine) {
       return;
     }
-    const rect = pen.calculative.worldRect;
+    const rect = pen.calculative.worldRect; // 字符rect
     if (rect) {
       const pts = rectToPoints(rect);
       // rectToPoints 已经计算过 rotate 无需重复计算

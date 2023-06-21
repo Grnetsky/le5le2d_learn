@@ -83,6 +83,7 @@ export class ViewMap {
     this.isShow = false;
   }
 
+  //
   setView() {
     const data = this.parent.store.data;
     if (data.pens.length) {

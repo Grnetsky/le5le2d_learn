@@ -32,7 +32,7 @@ const onSave = () => {
   const a = document.createElement("a"); // 通过a链接的dowmload下载
   a.download = filename;
   a.href = window.URL.createObjectURL(blob);
-  a.dataset.downloadurl = ["text/json", a.download, a.href].join(":"); // TODO 作用？
+  a.dataset.downloadurl = ["text/json", a.download, a.href].join(":"); //TODO 作用？
   a.click(); // 点击下载
 };
 const onTogglePen = () => {

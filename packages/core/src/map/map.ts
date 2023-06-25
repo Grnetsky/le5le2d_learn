@@ -5,6 +5,7 @@
 
 import { Canvas } from '../canvas';
 import { calcRightBottom, getRect, translateRect } from '../rect';
+import {Logger} from "typedoc";
 
 export class ViewMap {
   box: HTMLElement;
@@ -18,14 +19,14 @@ export class ViewMap {
   view: HTMLElement; // 可视区域外框
   constructor(public parent: Canvas) { // 父canvas图元
     this.box = document.createElement('div'); // 创建缩略图区域
-    this.img = new Image();
+    this.img = new Image(); // 该图片作用？
     this.view = document.createElement('div'); // 创建可视区域
 
     this.box.appendChild(this.img);
     this.box.appendChild(this.view);
-    this.parent.externalElements.appendChild(this.box);
+    this.parent.externalElements.appendChild(this.box);// 将其添加到父元素的额外元素中
 
-    this.box.className = 'meta2d-map';
+    this.box.className = 'meta2d-map'; // 设置类名 绑定样式
     // 绑定事件
     this.box.onmousedown = this.onMouseDown;
     this.box.onmousemove = this.onMouseMove;
@@ -63,34 +64,35 @@ export class ViewMap {
       );
     }
   }
-
+  // 显示 本质通过将界面输出为图片的形式
   show() {
     this.box.style.display = 'flex';
     // 数据来源
     const data = this.parent.store.data;
-    if (data.pens.length) {
+    if (data.pens.length) { // 若有图元
       this.img.style.display = 'block';
-      this.img.src = this.parent.toPng();
-      this.setView();
+      this.img.src = this.parent.toPng(); // 将父元素canvas渲染为png图片
+      this.setView(); // 显示在界面上
     } else {
-      this.img.style.display = 'none';
+      this.img.style.display = 'none';  // 若无图元则不操作
     }
-    this.isShow = true;
+    this.isShow = true; // 设置show转态为true
   }
 
-  hide() {
+  hide() { // 隐藏缩略图
     this.box.style.display = 'none';
     this.isShow = false;
   }
 
-  //
+  // 将缩略图在界面中显示出来 计算
   setView() {
+    console.log("执行setView");
     const data = this.parent.store.data;
     if (data.pens.length) {
       const rect = getRect(data.pens);
       // rect += data.x y 得到相对坐标
       translateRect(rect, data.x, data.y);
-      const rectRatio = rect.width / rect.height;
+      const rectRatio = rect.width / rect.height; // 宽高比
       if (rectRatio > this.ratio) {
         // 上下留白，扩大高度
         const height = rect.width / this.ratio;

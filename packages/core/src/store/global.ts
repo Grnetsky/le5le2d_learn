@@ -19,7 +19,7 @@ export const globalStore: {   // 全局仓库管理
   htmlElements: {},
 };
 
-export function register(path2dFns: {   // 注册函数
+export function register(path2dFns: {   //TOD 作用？数
   [key: string]: (pen: Pen, ctx?: CanvasRenderingContext2D) => Path2D;
 }) {
   Object.assign(globalStore.path2dDraws, path2dFns); // assign方法用来拷贝

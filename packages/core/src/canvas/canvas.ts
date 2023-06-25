@@ -3611,7 +3611,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
   }
 
   setCalculativeByScale(pen: Pen) {
-    const scale = this.store.daGITta.scale;
+    const scale = this.store.data.scale;
     pen.calculative.lineWidth = pen.lineWidth * scale;
     pen.calculative.fontSize = pen.fontSize * scale;
     if (pen.fontSize < 1) {
@@ -4269,6 +4269,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
     shiftKey?: boolean;
     altKey?: boolean;
   }) {
+    console.log();
     if (!this.activeRect || this.store.data.locked) {
       return;
     }

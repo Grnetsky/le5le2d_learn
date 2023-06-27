@@ -196,7 +196,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
   pasteOffset = 10;
   opening: boolean = false;
   /**
-   * @deprecated 改用 beforeAddPens
+   * @deprecated 改用
    */
   beforeAddPen: (pen: Pen) => boolean;
   beforeAddPens: (pens: Pen[]) => Promise<boolean>;
@@ -257,7 +257,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
 
     this.magnifierCanvas = new MagnifierCanvas(this, parentElement, store); // 放大镜
     this.magnifierCanvas.canvas.style.zIndex = '4';
-
+    // 这个元素的作用？
     this.externalElements.style.position = 'absolute';
     this.externalElements.style.left = '0';
     this.externalElements.style.top = '0';
@@ -953,7 +953,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
   }
 
   ondrop = async (event: DragEvent) => { // 监听拖拽事件
-    console.log(event,66666)
+    console.log("图元被放下了");
     if (this.store.data.locked) {
       console.warn('canvas is locked, can not drop');
       return;
@@ -978,16 +978,17 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
       }
       !obj && (obj = JSON.parse(json));
       obj = Array.isArray(obj) ? obj : [obj];
+      console.log(obj,"obj");
       const pt = { x: event.offsetX, y: event.offsetY };
       this.calibrateMouse(pt);
-      this.dropPens(obj, pt);
+      this.dropPens(obj, pt); // 放置图元方法
     } catch (e) {}
   };
 
 
   //TODO 放置元素 核心代码 核心代码
   async dropPens(pens: Pen[], e: Point) {
-
+    console.log(pens,"pen");
     for (const pen of pens) {
       // 只修改 树根处的 祖先节点, randomCombineId 会递归更改子节点
       !pen.parentId && this.randomCombineId(pen, pens);
@@ -1023,6 +1024,8 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
         width: width * this.store.data.scale,
         height: height * this.store.data.scale,
       };
+
+      // TODO 这是在干嘛？判断画笔是否在大屏外？
       let flag = true;
       for (const pen of pens) {
         if (!pen.parentId) {
@@ -3209,12 +3212,13 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
     this.store.data.pens.push(pen);
     this.store.pens[pen.id] = pen;
     // 集中存储path，避免数据冗余过大
+    // TODO  path？是svg中的path吗？
     if (pen.path) {
       !pen.pathId && (pen.pathId = s8());
-      const paths = this.store.data.paths;
+      const paths = this.store.data.paths;  //svg的path
       !paths[pen.pathId] && (paths[pen.pathId] = pen.path);
 
-      pen.path = undefined;
+      pen.path = undefined; // TODO 为什么设为undefined？
     }
     // end
 

@@ -8,7 +8,7 @@
 import { nextTick, ref } from "vue";
 import { icons } from "../utils/data";
 import axios from "axios";
-import { parseSvg } from "@meta2d/svg";
+import { parseSvg } from "../../../../packages/svg";
 import Meta2dTwoVue from "./Meta2dTwo.vue";
 
 // 拖拽开始事件
@@ -25,8 +25,10 @@ nextTick(() => {
 
 const rIcons = ref(icons);
 axios.get("/T型开关A -C.svg").then((res) => {
+  console.log("解析");
   const data = res.data;
-  const pens = parseSvg(data);
+  const pens = parseSvg(data); // 解析svg
+  console.log(pens);
   rIcons.value.push({
     svg: "/T型开关A -C.svg",
     title: "svg",

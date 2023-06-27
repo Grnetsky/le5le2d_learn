@@ -112,6 +112,7 @@ export class Meta2d {   // 2d入口对象
    * @deprecated 改用 beforeAddPens
    */
   get beforeAddPen() {
+    console.log("beforeAddPen");
     return this.canvas.beforeAddPen;
   }
   /**
@@ -1261,7 +1262,7 @@ export class Meta2d {   // 2d入口对象
     data.version = pkg.version; // 获取版本信息
     // TODO: 未在 delete 时清除，避免撤销等操作。
     // 清除一些未使用到的 paths
-    data.paths = {};
+    data.paths = {}; // TODO path属性的作用？
     for (const pathId in paths) {
       if (Object.prototype.hasOwnProperty.call(paths, pathId)) {
         if (pens.find((pen) => pen.pathId === pathId)) {

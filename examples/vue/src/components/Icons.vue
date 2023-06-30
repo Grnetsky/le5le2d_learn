@@ -28,12 +28,13 @@ axios.get("/T型开关A -C.svg").then((res) => {
   console.log("解析");
   const data = res.data;
   const pens = parseSvg(data); // 解析svg
-  console.log(pens);
+  console.log(pens,'ppppppppppppppppppppppppppppp');
   rIcons.value.push({
     svg: "/T型开关A -C.svg",
     title: "svg",
     data: pens,
   });
+
 });
 </script>
 

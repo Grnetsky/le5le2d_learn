@@ -243,6 +243,8 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
     public parentElement: HTMLElement,
     public store: Meta2dStore
   ) {
+    console.log(this.store,"store");
+
     this.canvasImageBottom = new CanvasImage(parentElement, store, true);
     this.canvasImageBottom.canvas.style.zIndex = '1';
 
@@ -267,7 +269,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
     parentElement.style.position = 'relative';
     parentElement.appendChild(this.externalElements);
     this.createInput();
-
+    console.log(this.store,"store");
     // 创建tooltip对象
     this.tooltip = new Tooltip(parentElement, store);  // TODO tooltip位置如何得到？如何计算？
     // 重写tooltip的onmouseleave方法
@@ -3527,6 +3529,8 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
               img.src = this.store.options.cdn + pen.image;
             }
             img.onload = () => {
+              console.log(pen,"loadImage");
+
               // TODO: 连续的加载两张图片，若后开始加载 的图片先加载完成，可能会导致展示的是 先开始加载的图片
               pen.calculative.img = img;
               pen.calculative.imgNaturalWidth =

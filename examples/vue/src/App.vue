@@ -4,6 +4,7 @@
 import Header from './components/Header.vue';
 import Icons from './components/Icons.vue';
 import Meta2d from './components/Meta2d.vue';
+import Meta2dTwo from "./components/Meta2dTwo.vue";
 </script>
 
 <template>
@@ -29,7 +30,7 @@ html, body, #app {
 
 input[type=file], /* FF, IE7+, chrome (except button) */
 input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 i.iconfont {

@@ -1085,7 +1085,7 @@ export function ctxRotate(
 
 export function renderPen(ctx: CanvasRenderingContext2D, pen: Pen) {
   ctx.save();
-  ctx.translate(0.5, 0.5);
+  ctx.translate(0.5, 0.5); //canvas 1像素 会使得边线模糊 原因自行百度
   ctx.beginPath();
 
   ctxFlip(ctx, pen);
@@ -1431,6 +1431,7 @@ export function ctxDrawPath(
       }
       ctx.restore();
     }
+
     if (path instanceof Path2D) {
       fill && ctx.fill(path);
     } else {
@@ -1665,7 +1666,7 @@ export function renderAnchor(
     }
     if (pt.next) {
       ctx.save();
-      ctx.strokeStyle = '#4dffff';
+      ctx.strokeStyle = '#0b5bee';
       ctx.beginPath();
       ctx.moveTo(pt.x, pt.y);
       ctx.lineTo(pt.next.x, pt.next.y);
@@ -2772,6 +2773,7 @@ function inspectRect(
   pen: Pen
 ) {
   if (store.fillWorldTextRect) {
+    console.log("绘制rect");
     ctx.save();
     ctx.fillStyle = '#c3deb7';
     const { x, y, width, height } = pen.calculative.worldTextRect;
@@ -2802,6 +2804,9 @@ function ctxDrawCanvas(ctx: CanvasRenderingContext2D, pen: Pen) {
     ctx.save();
     // TODO: 原有 return 终止后续操作，必要性不大
     canvasDraw(ctx, pen);
+    debugger
+    console.log("渲染了-------------------");
+
     ctx.restore();
   }
 }

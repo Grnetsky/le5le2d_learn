@@ -16,6 +16,7 @@ export function parseSvg(svg: string): Pen[] {
   });
 
   const xmlJson: any[] = parser.parse(svg);
+  console.log(xmlJson);
   const svgs = xmlJson.filter((item) => item.svg);
   const pens: Pen[] = [];
   anchorsArr = [];
@@ -111,6 +112,7 @@ function transformCombines(selfProperty, children: any[]): Pen[] {
       setStyle([{ style: child.style }]);
     } else if (childProperty) {
       pen = transformNormalShape(childProperty, selfProperty, combinePen.id);
+      console.log(pen,"transformNormalShape");
       if (child.path) {
         // path 类型
         pen = transformPath(childProperty, pen);

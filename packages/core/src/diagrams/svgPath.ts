@@ -40,6 +40,7 @@ export function svgPath(pen: Pen, ctx?: CanvasRenderingContext2D): Path2D {
   );
 
   const pathStr = pathToString(path);
+  console.log(pathStr,"pathstr");
   if (ctx) {
     (ctx as any).svgPath?.(pathStr);
     return;

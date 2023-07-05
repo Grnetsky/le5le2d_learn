@@ -2804,9 +2804,6 @@ function ctxDrawCanvas(ctx: CanvasRenderingContext2D, pen: Pen) {
     ctx.save();
     // TODO: 原有 return 终止后续操作，必要性不大
     canvasDraw(ctx, pen);
-    debugger
-    console.log("渲染了-------------------");
-
     ctx.restore();
   }
 }

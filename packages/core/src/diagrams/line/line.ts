@@ -96,6 +96,7 @@ export function getLinePoints(pen: Pen) {
   return pts;
 }
 
+
 export function getLineR(pen: Pen) {
   return pen?.lineWidth ? pen.lineWidth / 2 + 4 : 4;
 }

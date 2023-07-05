@@ -133,7 +133,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
   width: number; // 宽度
   height: number; // 高度
 
-  externalElements = document.createElement('div');  // 这个为外部聚焦框 可能不止一个子元素？ external：外部的
+  externalElements = document.createElement('div'); // 输入框 监听事件
   clientRect?: DOMRect; // TODO 作用？
   canvasRect: Rect;
 
@@ -1342,7 +1342,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
     shiftKey?: boolean;
     altKey?: boolean;
   }) => {
-
+    console.log(e);
     if (e.buttons === 2 && !this.drawingLine) {
       this.mouseRight = MouseRight.Down;
     }
@@ -1645,7 +1645,6 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
       }
       this.lastMouseTime = 0;
     }
-
     this.calibrateMouse(e);
     this.mousePos.x = e.x;
     this.mousePos.y = e.y;
@@ -2517,7 +2516,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
       return;
     }
     let hoverType = HoverType.None;
-    this.store.hover = undefined;
+    this.store.hover = undefined; //
     this.store.hoverAnchor = undefined;
     this.store.pointAt = undefined;
     this.store.pointAtIndex = undefined;
@@ -2631,7 +2630,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
         continue;
       }
 
-      const r = getLineR(pen);
+      const r = getLineR(pen); // r 是什么？？
       if (
         !pen.calculative.active &&
         !pointInSimpleRect(pt, pen.calculative.worldRect, r) &&
@@ -3744,6 +3743,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
     offscreenCtx.clearRect(0, 0, this.offscreen.width, this.offscreen.height);
     offscreenCtx.save();
     offscreenCtx.translate(this.store.data.x, this.store.data.y);
+    console.log(this.store.data.x, this.store.data.y,"移动渲染层");
     globalThis.debugRender && console.time('renderPens');
     this.renderPens();
     globalThis.debugRender && console.timeEnd('renderPens');
@@ -4277,7 +4277,6 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
     shiftKey?: boolean;
     altKey?: boolean;
   }) {
-    console.log();
     if (!this.activeRect || this.store.data.locked) {
       return;
     }
@@ -5941,7 +5940,7 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
       this.store.hover = null;
     };
     this.inputParent.appendChild(this.dropdown);
-    this.externalElements.appendChild(this.inputParent);
+    this.externalElements.appendChild(this.inputParent); // 输入框
     this.inputParent.onmousedown = this.stopPropagation;
     this.inputDiv.onmousedown = this.stopPropagation;
     this.inputDiv.contentEditable = 'false';

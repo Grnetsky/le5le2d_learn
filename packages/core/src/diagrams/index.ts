@@ -1,5 +1,5 @@
 export * from './rectangle';
-export * from './circle';
+export * from '../../../../../../../WebstormProjects/lemander/core/src/diagrams/circle';
 export * from './svgPath';
 export * from './diamond';
 export * from './triangle';
@@ -17,7 +17,7 @@ export * from './iframe';
 export * from './video';
 
 import { rectangle, square } from './rectangle';
-import { circle } from './circle';
+import { circle } from '../../../../../../../WebstormProjects/lemander/core/src/diagrams/circle';
 import { svgPath } from './svgPath';
 import { diamond } from './diamond';
 import { triangle, triangleAnchors } from './triangle';

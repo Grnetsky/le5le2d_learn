@@ -5083,7 +5083,16 @@ export class Canvas {  // 画布类 为什么主界面是四个canvas？ 双缓�
           pen.calculative.media.currentTime = 0;
           pen.calculative.media?.play();
           pen.onStartVideo?.(pen);
-        } else if (pen.type || pen.frames?.length) {
+        } else if (pen.type || pen.frames?.length || pen.animations) {
+          if(pen.animations && (!pen.frames || pen.frames.length === 0)){
+            // TODO 这里拿的是第一个动画，是否会有潜在bug
+            let _ = pen.animations[0];
+            delete _.name;
+            this.parent.setValue({
+              id:pen.id,
+              ..._
+            });
+          }
           //存储动画初始状态
           if (!pen.type) {
             this.store.animateMap.set(pen, this.getFrameProps(pen));
